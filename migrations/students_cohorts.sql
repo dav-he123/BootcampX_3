@@ -6,7 +6,6 @@ CREATE TABLE cohorts (
 
 );
 
-
 CREATE TABLE students (
     id SERIAL PRIMARY KEY NOT NULL,
     cohort_id INTEGER REFERENCES cohorts(id) ON DELETE CASCADE,
