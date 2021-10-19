@@ -8,7 +8,6 @@ CREATE TABLE teachers (
 
 );
 
-
 CREATE TABLE assistance_requests (
 
     id SERIAL PRIMARY KEY NOT NULL,
