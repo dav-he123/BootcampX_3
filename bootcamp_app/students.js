@@ -8,21 +8,27 @@ const pool = new Pool({
     host: 'localhost',
     database: 'bootcampx'
   })
+  
+  pool.connect((err) => {
+      if (err) throw err;
+      console.log('Connected!');
+    });
 
+    
+const cohortName = process.argv[2];
+const limit = process.argv[3] || 5;
+   
+const values = [`%${cohortName}%`, limit];
 
-pool.connect((err) => {
-  if (err) throw err;
-  console.log('Connected!');
-});
-
-
-pool.query(`
+const queryString = `
 SELECT students.id, students.name, cohorts.name AS cohort
 FROM students 
 JOIN cohorts ON cohort_id = cohorts.id
-WHERE cohorts.name LIKE '%${process.argv[2]}%'
-LIMIT ${process.argv[3] || 5};
-`)
+WHERE cohorts.name LIKE $1
+LIMIT $2;
+`;
+
+pool.query(queryString, values)
 .then(res => {
     // console.log(res.rows);
     res.rows.forEach(user => {
@@ -30,3 +36,5 @@ LIMIT ${process.argv[3] || 5};
     })
 })
 .catch(err => console.error('query error', err.stack));
+
+
